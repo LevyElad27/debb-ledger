@@ -1,0 +1,43 @@
+# Daily external anchor for DEBB's public prediction ledger.
+# No secrets, no third-party actions, only the default token with contents: write.
+name: anchor
+
+on:
+  schedule:
+    - cron: "30 8 * * *"  # after DEBB's 07:00 UTC freeze
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: anchor
+  cancel-in-progress: false
+
+jobs:
+  anchor:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Sync, commit, push
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: |
+          set +e
+          python3 sync_ledger.py
+          status=$?
+          set -e
+          mkdir -p ledger mismatches
+          # A failed run keeps its evidence and nothing else: never a partial ledger/.
+          if [ "$status" -eq 0 ]; then
+            git add -A ledger
+          fi
+          git add -A mismatches
+          if ! git diff --cached --quiet; then
+            git -c user.name="debb-ledger-anchor" -c user.email="actions@users.noreply.github.com" \
+              commit -m "anchor $(date -u +%Y-%m-%d)"
+            git push
+          fi
+          exit "$status"
