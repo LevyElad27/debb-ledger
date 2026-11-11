@@ -1,4 +1,4 @@
-# Daily external anchor for DEBB's public prediction ledger.
+# Daily public anchor for DEBB's prediction ledger. Same owner as DEBB.
 # No secrets, no third-party actions, only the default token with contents: write.
 name: anchor
 

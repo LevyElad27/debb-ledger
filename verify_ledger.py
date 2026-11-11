@@ -91,7 +91,7 @@ def warning(directory: Path, expect_head: str | None) -> str | None:
     except (OSError, ValueError):
         return None
     unanchored = isinstance(index, dict) and index.get("anchor_start") is None
-    return ("WARNING: no --expect-head given" + (" and the ledger says nothing is anchored yet" if unanchored else "")
+    return ("WARNING: no --expect-head given" + (" and the ledger says no day is covered yet" if unanchored else "")
             + ": OK only means the files agree with each other, not that they are unchanged.")
 
 

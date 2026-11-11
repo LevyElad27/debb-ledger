@@ -1,6 +1,6 @@
 # debb-ledger
 
-An outside copy of [DEBB](https://debb.fyi)'s public token log. DEBB records a sample of new Solana tokens
+A public copy of [DEBB](https://debb.fyi)'s public token log, kept by DEBB's owner. DEBB records a sample of new Solana tokens
 and, for the ones it scores, the score it gave at the time. Each closed UTC day is frozen once into a file,
 and each day's digest chains to the day before. A scheduled GitHub Action copies new days here, so
 a day's digest gets a timestamp in this repository's commit history.
@@ -17,7 +17,7 @@ Once a day is committed here, a change to that day's file breaks its digest and 
   blocked by a ruleset, and that same owner could remove the ruleset. Forks and clones you keep are the real
   protection, so keep one.
 - Anything about the days already frozen when the first commit here was made, including every day in that
-  commit. They were published after the fact, and some come from a database that was breached on 2026-10-22.
+  commit. They were published after the fact. DEBB's hosting provider disclosed on 2026-10-21 that customer secrets were exposed. DEBB treats its database password as leaked until it was changed on 2026-10-24, so changes to rows from 2026-10-10 through 2026-10-24 can't be ruled out. DEBB found no sign of any, but its logs can't settle that.
   Coverage starts at `anchor_start` in `ledger/index.json`: the first day frozen after that commit.
 
 `deployer` and `deployer_rug_rate` come from heuristic labels. They are not findings about any person or wallet.
